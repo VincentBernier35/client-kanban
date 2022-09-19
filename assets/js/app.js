@@ -8,14 +8,29 @@ var app = {
 
   },
   addListenerToActions: function() {
+    // open modal
     const addListButton = document.getElementById("addListButton");
     addListButton.addEventListener("click", app.showAddListModal);
+
+
+    // listening of all closing buttons
+    const closeButtons = document.querySelectorAll(".modal .close");
+    for (let button of closeButtons) {
+      button.addEventListener("click", app.closeModals);
+    }
   },
   showAddListModal: function() {
+    // open modal
     const listModal = document.getElementById("addListModal");
     listModal.classList.add("is-active");
-  }
+  }, 
+  closeModals: function() {
+    const modals = document.querySelectorAll(".modal");
 
+    for (let modal of modals) {
+      modal.classList.remove("is-active");
+    }
+  }
 };
 
 
