@@ -1,7 +1,7 @@
 
 var app = {
 
-  init: function () {
+  init: () => {
     console.log("app.init !");
     app.addListnersToActions();
   },
@@ -40,6 +40,7 @@ var app = {
     }
   },
 
+  // ************ LIST management
   handleAddListForm : (e) => {
 
     e.preventDefault();
@@ -50,33 +51,12 @@ var app = {
     app.hideModals();
   },
 
-  handleAddCardForm: (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-
-    app.makeCardInDOM(formData);
-
-    app.hideModals();
-  },
-
-  // **********************
-
-  makeCardInDOM: (formData) => {
-    let template = document.getElementById("template-card");
-    let newCard = document.importNode(template.content, true);
-    newCard.querySelector(".card-name").textContent = formData.get("name");
-
-    let theGoodList = document.
-      querySelector(`[data-list-id="${formData.get("list_id")}"] .panel-block`);
-
-    theGoodList.appendChild(newCard);
-  },
-
   makeListInDOM: (formData) => {
 
     let template = document.getElementById("template-list");
+    console.log(template);
 
-    let newList = document.importNode(template.content, true);
+    let newList = document.importNode(template.content, true); // true = inclue les noeuds enfants
 
     newList.querySelector("h2").textContent = formData.get("name");
 
@@ -84,7 +64,6 @@ var app = {
 
     newList.querySelector(".add-card-btn").addEventListener("click", app.showAddCardModal);
 
-    console.log(newList);
 
     // TODO: A CHANGER PAR LA VRAI ID APRES
     // POUR AVOIR UNE ID UNIQUE JE VAIS TEMPORAIREMENT UTILISER UN TIMESTAMP
@@ -98,7 +77,6 @@ var app = {
     // //TODO !!!!!!!!!!!!!!
   },
 
-
   showAddCardModal: (e) => {
     let modal = document.getElementById("addCardModal");
     modal.classList.add("is-active");
@@ -108,9 +86,30 @@ var app = {
     const listId = e.target.closest(".panel").dataset.listId;
     //Sur mon modal je récupère mon input caché et j'affecte l'id
     modal.querySelector("input[name=\"list_id\"]").value = listId;
+  },
+
+  // ************ CARD management
+  handleAddCardForm: (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+
+    app.makeCardInDOM(formData);
+
+    app.hideModals();
+  },
+
+
+
+  makeCardInDOM: (formData) => {
+    let template = document.getElementById("template-card");
+    let newCard = document.importNode(template.content, true);
+    newCard.querySelector(".card-name").textContent = formData.get("name");
+
+    let theGoodList = document.
+      querySelector(`[data-list-id="${formData.get("list_id")}"] .panel-block`);
+
+    theGoodList.appendChild(newCard);
   }
-
-
 };
 
 
